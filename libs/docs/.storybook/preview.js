@@ -1,18 +1,10 @@
-export const parameters = {
+import { addParameters } from "@storybook/html";
+import { DocsPage, DocsContainer } from "@storybook/addon-docs";
+
+addParameters({
+  docs: {
+    container: DocsContainer,
+    page: DocsPage,
+  },
   viewMode: "docs",
-  previewTabs: {
-    canvas: { hidden: true },
-  },
-  options: {
-    storySort: {
-      order: [
-        "Overview",
-        "Layouts",
-        "Components",
-        "Utility",
-        "Setup",
-        ["Contributors", "Angular", "React"],
-      ],
-    },
-  },
-};
+});
