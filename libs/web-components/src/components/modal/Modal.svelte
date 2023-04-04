@@ -18,6 +18,8 @@
   let _rootEl: HTMLElement = null;
   let _contentEl: HTMLElement = null;
   let _scrollEl: HTMLElement = null;
+  let _headerEl: HTMLElement = null;
+  let _headerSlot: HTMLSlotElement = null;
 
   // Type verification
   const [CALLOUT_VARIANT, validateCalloutVariant] = typeValidator("Callout variant", [
@@ -68,8 +70,31 @@
   $: if (!_isOpen) {
     // prevent null issues
     _contentEl = _scrollEl = _rootEl = null;
-    window.removeEventListener('keydown', onInputKeyDown)
+    window.removeEventListener('keydown', onInputKeyDown);
+    _headerSlot?.removeEventListener("slotchange", (_e) => {
+      if(_headerEl){
+        _headerEl.classList.toggle("has-content", _headerSlot.assignedNodes().length > 0);
+      }
+    });
+    _headerEl = _headerSlot = null;
+
   }
+  $: if(_isOpen && _headerEl) {
+    console.log("headerEl", _headerEl);
+    console.log("headerSlot", _headerSlot);
+    console.log("_isOpen", _isOpen);
+    if(_headerEl) {
+      _headerSlot = _headerEl.querySelector("slot");
+      console.log("_headerSlot.assignedNodes().length", _headerSlot.assignedNodes().length);
+      _headerSlot?.addEventListener("slotchange", (_e) => {
+        if(_headerEl){
+          _headerEl.classList.toggle("has-content", _headerSlot.assignedNodes().length > 0);
+        }
+      })
+    }
+
+  }
+
 
   // Hooks
   onMount(() => {
@@ -82,6 +107,7 @@
     if (!_isClosable) {
       return;
     }
+    _isOpen = false;
     _rootEl?.dispatchEvent(new CustomEvent("_close", { composed: true }));
     e.stopPropagation();
   }
@@ -143,7 +169,7 @@
           </div>
         {/if}
         <div class="content">
-          <header>
+          <header bind:this={_headerEl}>
             <div data-testid="modal-title" class="modal-title">
               {#if heading}
                 {heading}
@@ -243,8 +269,11 @@
   .content header {
     display: flex;
     align-items: center;
-    margin-bottom: 2rem;
     justify-content: space-between;
+  }
+
+  .content :global(header.has-content) {
+    margin-bottom: 2rem;
   }
 
   .modal-pane {

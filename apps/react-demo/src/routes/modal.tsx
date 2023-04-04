@@ -38,7 +38,7 @@ export default function Modal() {
       <h2>Basic</h2>
       <GoAButton onClick={() => setShowModal(true)}>Open Basic Modal</GoAButton>
       <GoAModal
-        heading="Do you agree?"
+        heading=""
         open={showModal}
         onClose={() => setShowModal(false)}
       >
@@ -130,7 +130,7 @@ export default function Modal() {
           Event Callout
         </GoAButton>
       </GoAButtonGroup>
-      <GoAModal
+      {/* <GoAModal
         type="callout"
         calloutVariant={calloutVariant}
         heading="Do you agree?"
@@ -153,7 +153,7 @@ export default function Modal() {
           explicabo eligendi eius laboriosam! Repellendus ducimus officia
           asperiores. Eos, eius numquam.
         </p>
-      </GoAModal>
+      </GoAModal> */}
 
       <h2>Formatting Options</h2>
       <GoAButton onClick={() => setShowModal4(true)}>With Actions</GoAButton>
