@@ -80,19 +80,12 @@
 
   }
   $: if(_isOpen && _headerEl) {
-    console.log("headerEl", _headerEl);
-    console.log("headerSlot", _headerSlot);
-    console.log("_isOpen", _isOpen);
-    if(_headerEl) {
-      _headerSlot = _headerEl.querySelector("slot");
-      console.log("_headerSlot.assignedNodes().length", _headerSlot.assignedNodes().length);
-      _headerSlot?.addEventListener("slotchange", (_e) => {
-        if(_headerEl){
-          _headerEl.classList.toggle("has-content", _headerSlot.assignedNodes().length > 0);
-        }
-      })
-    }
-
+    _headerSlot = _headerEl.querySelector("slot");
+    _headerSlot?.addEventListener("slotchange", (_e) => {
+      if(_headerEl){
+        _headerEl.classList.toggle("has-content", _headerSlot.assignedNodes().length > 0);
+      }
+    })
   }
 
 
